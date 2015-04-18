@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     get :upvote, on: :member
     get :expensive, on: :collection
   end
+
+  get 'admin/users_count' => 'admin#users_count'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
