@@ -5,7 +5,10 @@ class ItemsController < ApplicationController
 
   # /items GET
   def index
-    @items = Item.all()
+    @items = Item
+    @items = @items.where('price >= ?', params[:price_from]) if params[:price_from]
+    @items = @items.where('votes_count >= ?', params[:votes_from]) if params[:votes_from]
+    @items = @items.order('votes_count DESC', 'price')
   end
 
   def expensive
@@ -43,8 +46,10 @@ class ItemsController < ApplicationController
   def update
     @item.update(params.require(:item).permit(:name, :price, :description, :weight))
     if @item.errors.empty?
+      flash[:success] = 'Item successfully updated'
       redirect_to item_path(@item)
     else
+      flash.now[:error] = 'You made mistakes in your form. Please correct them.'
       render 'edit'
     end
   end
