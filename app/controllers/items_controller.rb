@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
 
   # /items POST
   def create
-    @item = Item.create(params.require(:item).permit(:name, :price, :description, :weight))
+    @item = Item.create(item_params)
     if @item.errors.empty?
       redirect_to item_path(@item)
     else
@@ -44,7 +44,7 @@ class ItemsController < ApplicationController
 
   # /items/:id PUT
   def update
-    @item.update(params.require(:item).permit(:name, :price, :description, :weight))
+    @item.update(item_params)
     if @item.errors.empty?
       flash[:success] = 'Item successfully updated'
       redirect_to item_path(@item)
@@ -70,6 +70,10 @@ class ItemsController < ApplicationController
     def find_item
       @item = Item.where(id: params[:id]).first
       render_404 unless @item
+    end
+
+    def item_params
+      params.require(:item).permit(:price, :weight, :name, :real, :description)
     end
 
 end
