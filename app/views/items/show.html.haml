@@ -3,4 +3,4 @@
 %ul
   %li= "#{@item.price} RUB"
   %li= urls_to_links(urls_to_images(@item.description))
-  %li Weight: #{@item.weight} kg
+  %li #{t('item.weight')} #{@item.weight} kg
